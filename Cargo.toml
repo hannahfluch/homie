@@ -22,3 +22,7 @@ confy = "0.6.1"
 regex-lite = "0.1.6"
 
 thiserror = "2.0.3"
+
+[profile.release]
+opt-level = "z"
+strip = "symbols"
