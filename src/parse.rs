@@ -3,7 +3,7 @@ use std::env;
 use crate::config::{cli::Cli, Config};
 use crate::error::BuddyError;
 use clap::Parser;
-use regex::Regex;
+use regex_lite::Regex;
 
 /// Parse cli args and match against config file
 macro_rules! parse_args {
@@ -60,7 +60,7 @@ pub(crate) fn run() -> Result<(Config, String), BuddyError> {
 /// Expand environment variables in paths of config file.
 fn expand_env(input: String) -> Option<String> {
     Regex::new(r"\$([A-Za-z_][A-Za-z0-9_]*)").ok().map(|re| {
-        re.replace_all(&input, |caps: &regex::Captures| {
+        re.replace_all(&input, |caps: &regex_lite::Captures| {
             env::var(&caps[1]).unwrap_or_else(|_| format!("${}", &caps[1]))
         })
         .to_string()

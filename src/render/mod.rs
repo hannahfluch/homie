@@ -15,7 +15,6 @@ use gtk4_layer_shell::{Edge, Layer, LayerShell};
 use helpers::load_css;
 use helpers::screen_resolution;
 use helpers::update_input_region;
-use rand::Rng;
 use sprite::preload_images;
 use state::State;
 
@@ -236,9 +235,7 @@ fn activate(
         move |_gesture: &GestureClick, _n_press: i32, _x: f64, _y: f64| {
             if state.get() != State::Click && state.get() != State::InitiatingClick {
                 // initiate click event
-                if state.get() == State::Idle
-                    && (rand::thread_rng().gen_range(0..100) + 1) as u8 <= onclick_event_chance
-                {
+                if state.get() == State::Idle && fastrand::u8(0..=100) <= onclick_event_chance {
                     state.set(State::InitiatingClick);
                 } else {
                     state.set(!state.get());
