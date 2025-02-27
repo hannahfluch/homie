@@ -28,7 +28,7 @@ mod state;
 
 /// Prepare and render character.
 pub(crate) fn render_character(config: Config, sprites_path: String) {
-    let app_id = format!("hqnnqh.buddy.instance{}", std::process::id());
+    let app_id = format!("hannahfluch.buddy.instance{}", std::process::id());
 
     let application = gtk4::Application::new(Some(app_id.as_str()), Default::default());
 
