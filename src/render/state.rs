@@ -1,15 +1,11 @@
 use std::ops::Not;
 
 /// State that buddy can be in at any time.
-#[derive(Copy, Clone, Debug, PartialEq)]
+#[derive(Copy, Clone, Debug, PartialEq, Default)]
 pub(crate) enum State {
+    #[default]
     Idle,
-
-    // special state for initiating run to ensure proper timing
-    InitiatingRun,
     Running,
-
-    InitiatingClick,
     Click,
 }
 
@@ -18,10 +14,8 @@ impl Not for State {
 
     fn not(self) -> Self::Output {
         match self {
-            State::Running | State::InitiatingRun | State::InitiatingClick | State::Click => {
-                State::Idle
-            }
-            State::Idle => State::InitiatingRun,
+            State::Running | State::Click => State::Idle,
+            State::Idle => State::Running,
         }
     }
 }

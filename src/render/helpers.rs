@@ -7,8 +7,14 @@ use gdk4::prelude::{DisplayExt, MonitorExt, SurfaceExt};
 use gdk4::Display;
 
 /// Update click-able section of buddy on screen.
-pub(super) fn update_input_region(window: &ApplicationWindow, character_size: i32, x: i32, y: i32) {
-    let region = Region::create_rectangle(&RectangleInt::new(x, y, character_size, character_size));
+pub(super) fn update_input_region(
+    window: &ApplicationWindow,
+    width: i32,
+    height: i32,
+    x: i32,
+    y: i32,
+) {
+    let region = Region::create_rectangle(&RectangleInt::new(x, y, width, height));
     window.surface().unwrap().set_input_region(&region);
 }
 

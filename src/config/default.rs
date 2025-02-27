@@ -1,5 +1,3 @@
-pub(crate) const CHARACTER_SIZE: u16 = 75;
-pub(crate) const FPS: u32 = 4;
 pub(crate) const MOVEMENT_SPEED: u32 = 20;
 pub(crate) const SIGNAL_FREQUENCY: u32 = 1;
 pub(crate) const AUTOMATIC_RELOAD: bool = false;

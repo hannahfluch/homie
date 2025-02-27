@@ -33,7 +33,8 @@ pub(crate) fn run() -> Result<(Config, String), BuddyError> {
         config,
         cli,
         sprites_path,
-        character_size,
+        width,
+        height,
         fps,
         movement_speed,
         signal_frequency,
@@ -46,6 +47,10 @@ pub(crate) fn run() -> Result<(Config, String), BuddyError> {
         flip_vertical,
         debug
     );
+
+    if config.width.is_none() || config.height.is_none() {
+        return Err(BuddyError::NoDimensions);
+    }
 
     // check for existing sprites path
     let sprites_path = config

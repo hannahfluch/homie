@@ -18,10 +18,18 @@ pub(crate) struct Cli {
     #[clap(
         short,
         long,
-        value_name = "SIZE",
-        help = "Size of character in pixels (should match animation sprites)."
+        value_name = "WIDTH",
+        help = "Width of the character (px)."
     )]
-    pub(crate) character_size: Option<u16>,
+    pub(crate) width: Option<u16>,
+
+    #[clap(
+        short = 'H',
+        long,
+        value_name = "HEIGHT",
+        help = "Height of the character (px)."
+    )]
+    pub(crate) height: Option<u16>,
 
     #[clap(
         short,
@@ -88,7 +96,7 @@ pub(crate) struct Cli {
     pub(crate) left: Option<bool>,
 
     #[clap(
-        short = 'H',
+        short = 'F',
         long,
         value_name = "FLIP-HORIZONTAL",
         help = "Used to flip the horizontal direction of sprites."

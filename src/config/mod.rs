@@ -5,9 +5,9 @@ pub(crate) mod default;
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub(crate) struct Config {
-    // can safely be casted as both i32 and u32
-    pub(crate) character_size: u16,
-    pub(crate) fps: u32,
+    pub(crate) fps: Option<u32>,
+    pub(crate) width: Option<u16>,
+    pub(crate) height: Option<u16>,
     pub(crate) movement_speed: u32,
     pub(crate) onclick_event_chance: u8,
     pub(crate) x: i32,
@@ -24,8 +24,6 @@ pub(crate) struct Config {
 impl Default for Config {
     fn default() -> Self {
         Config {
-            character_size: default::CHARACTER_SIZE,
-            fps: default::FPS,
             movement_speed: default::MOVEMENT_SPEED,
             onclick_event_chance: default::ON_CLICK_CHANCE,
             x: default::X,
@@ -36,6 +34,49 @@ impl Default for Config {
             debug: default::DEBUG,
             signal_frequency: default::SIGNAL_FREQUENCY,
             automatic_reload: default::AUTOMATIC_RELOAD,
+            sprites_path: None,
+            fps: None,
+            width: None,
+            height: None,
+        }
+    }
+}
+
+impl Config {
+    /// Copies all primitive fields of the configuration - everything except for the
+    /// `sprites_path`.
+    pub fn copy_primitive(&self) -> Config {
+        let Config {
+            fps,
+            width,
+            height,
+            movement_speed,
+            onclick_event_chance,
+            x,
+            y,
+            left,
+            flip_horizontal,
+            flip_vertical,
+            debug,
+            signal_frequency,
+            automatic_reload,
+            ..
+        } = *self;
+
+        Self {
+            movement_speed,
+            width,
+            height,
+            onclick_event_chance,
+            x,
+            y,
+            left,
+            flip_horizontal,
+            flip_vertical,
+            fps,
+            debug,
+            signal_frequency,
+            automatic_reload,
             sprites_path: None,
         }
     }

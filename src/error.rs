@@ -1,4 +1,5 @@
 use confy::ConfyError;
+use image::ImageError;
 use thiserror::Error;
 
 #[derive(Debug, Error)]
@@ -7,18 +8,16 @@ pub(crate) enum BuddyError {
     InvalidConfig(#[from] ConfyError),
     #[error("No sprites path specidied")]
     NoSprites,
+    #[error("No width/height was provided.")]
+    NoDimensions,
     #[error("Graphical Failure: {0}")]
     Glib(#[from] gio::glib::Error),
     #[error("Signal Subscription Failed: {0}")]
     SignalSubscriptionFailed(#[from] std::io::Error),
-    #[error("Coordinates out of bounds: x: {0}px, y: {1}px for screen width: {2}px, screen height: {3}px, character size: {4}px - Use debug flag to disable bounds-checking")]
-    CoordinatesOutOfBounds(i32, i32, i32, i32, u16),
+    #[error("Coordinates out of bounds: x: {0}px, y: {1}px for screen width: {2}px, screen height: {3}px, character width: {4}px, character height: {5}px  - Use debug flag to disable bounds-checking")]
+    CoordinatesOutOfBounds(i32, i32, i32, i32, i32, i32),
     #[error("Unable to get screen resolution!")]
     NoScreenResolution,
-    #[error("Could not flip buddy on horizontal axis: {0}(/vertical axis)")]
-    FlipFailed(bool),
-    #[error("Unexpected animation type in sprites folder: {0}")]
-    UnexpectedAnimation(String),
-    #[error("Sprites cannot be found at path: {0}")]
-    SpritesCannotBeFound(String),
+    #[error("Gif Processing Error: {0}")]
+    GifDecodingFailed(#[from] ImageError),
 }

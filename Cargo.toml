@@ -4,11 +4,10 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-gtk4 = { version = "0.8.2", features = ["v4_12"] }
-gtk4-layer-shell = "0.3.0"
+gtk4 = { version = "0.9.6", features = ["v4_12"] }
+gtk4-layer-shell = "0.5.0"
 gio = "0.19.5"
-gdk4 = "0.8.2"
-glib = "0.20.0"
+gdk4 = "0.9.6"
 
 clap = { version = "4.5.4", features = ["derive"] }
 clap-num = "1.1.1"
@@ -22,6 +21,7 @@ confy = "0.6.1"
 regex-lite = "0.1.6"
 
 thiserror = "2.0.3"
+image = {version = "0.25.5", default-features = false, features = ["gif"]}
 
 [profile.release]
 opt-level = "z"
