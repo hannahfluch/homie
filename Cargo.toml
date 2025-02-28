@@ -29,3 +29,6 @@ image = {version = "0.25.5", default-features = false, features = ["gif"]}
 [profile.release]
 opt-level = "z"
 strip = "symbols"
+
+[package.metadata.aur]
+depends = ["gtk4-layer-shell"]
