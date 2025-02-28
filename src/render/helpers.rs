@@ -6,7 +6,7 @@ use gdk4::cairo::{RectangleInt, Region};
 use gdk4::prelude::{DisplayExt, MonitorExt, SurfaceExt};
 use gdk4::Display;
 
-use super::Config;
+use super::InternalConfig;
 
 /// Update click-able section of buddy on screen.
 pub(super) fn update_input_region(
@@ -45,7 +45,7 @@ pub(super) fn load_css() {
 }
 
 /// Infer the width/height if only one of the is provided.
-pub(super) fn infer_size(config: &Config, aspect_ratio: f64) -> (i32, i32) {
+pub(super) fn infer_size(config: &InternalConfig, aspect_ratio: f64) -> (i32, i32) {
     assert!(aspect_ratio > 0.0);
 
     match (config.width, config.height) {

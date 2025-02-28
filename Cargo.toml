@@ -13,8 +13,6 @@ clap = { version = "4.5.4", features = ["derive"] }
 clap-num = "1.1.1"
 fastrand = "2.3.0"
 
-signal-hook = "0.3.17"
-
 serde = "1.0.215"
 serde_derive = "1.0.215"
 confy = "0.6.1"

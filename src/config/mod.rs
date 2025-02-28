@@ -41,43 +41,39 @@ impl Default for Config {
         }
     }
 }
+#[derive(Copy, Clone, Debug)]
+pub(crate) struct InternalConfig {
+    pub(crate) fps: Option<u32>,
+    pub(crate) width: Option<u16>,
+    pub(crate) height: Option<u16>,
+    pub(crate) movement_speed: u32,
+    pub(crate) onclick_event_chance: u8,
+    pub(crate) x: i32,
+    pub(crate) y: i32,
+    pub(crate) left: bool,
+    pub(crate) flip_horizontal: bool,
+    pub(crate) flip_vertical: bool,
+    pub(crate) debug: bool,
+    pub(crate) signal_frequency: u32,
+    pub(crate) automatic_reload: bool,
+}
 
-impl Config {
-    /// Copies all primitive fields of the configuration - everything except for the
-    /// `sprites_path`.
-    pub fn copy_primitive(&self) -> Config {
-        let Config {
-            fps,
-            width,
-            height,
-            movement_speed,
-            onclick_event_chance,
-            x,
-            y,
-            left,
-            flip_horizontal,
-            flip_vertical,
-            debug,
-            signal_frequency,
-            automatic_reload,
-            ..
-        } = *self;
-
-        Self {
-            movement_speed,
-            width,
-            height,
-            onclick_event_chance,
-            x,
-            y,
-            left,
-            flip_horizontal,
-            flip_vertical,
-            fps,
-            debug,
-            signal_frequency,
-            automatic_reload,
-            sprites_path: None,
+impl From<Config> for InternalConfig {
+    fn from(value: Config) -> Self {
+        InternalConfig {
+            fps: value.fps,
+            width: value.width,
+            height: value.height,
+            movement_speed: value.movement_speed,
+            onclick_event_chance: value.onclick_event_chance,
+            x: value.x,
+            y: value.y,
+            left: value.left,
+            flip_vertical: value.flip_vertical,
+            flip_horizontal: value.flip_horizontal,
+            debug: value.debug,
+            signal_frequency: value.signal_frequency,
+            automatic_reload: value.automatic_reload,
         }
     }
 }

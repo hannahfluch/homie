@@ -11,7 +11,7 @@ use gtk4::{gdk, glib, prelude::*, subclass::prelude::*};
 use image::{codecs::gif::GifDecoder, AnimationDecoder};
 use paintable::Sprites;
 
-use super::{BuddyError, Config, State};
+use super::{BuddyError, InternalConfig, State};
 
 mod frame;
 mod paintable;
@@ -31,7 +31,7 @@ impl GifPaintable {
     pub(crate) fn load_animations(
         &self,
         path: &Rc<PathBuf>,
-        config: &Config,
+        config: &InternalConfig,
     ) -> Result<(), BuddyError> {
         let imp = self.imp();
         imp.current_idx.set(0);
@@ -57,7 +57,10 @@ impl GifPaintable {
         imp.state.get()
     }
 
-    fn load_gif<P: AsRef<Path>>(path: P, config: &Config) -> Result<Vec<Frame>, BuddyError> {
+    fn load_gif<P: AsRef<Path>>(
+        path: P,
+        config: &InternalConfig,
+    ) -> Result<Vec<Frame>, BuddyError> {
         let decoder = GifDecoder::new(BufReader::new(File::open(path)?))?;
         let mut frames = decoder
             .into_frames()

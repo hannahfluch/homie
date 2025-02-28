@@ -1,13 +1,10 @@
 use std::path::PathBuf;
 use std::rc::Rc;
-use std::sync::atomic::AtomicBool;
-use std::sync::atomic::Ordering;
-use std::sync::Arc;
 use std::time::Duration;
 
 use gdk4::prelude::PaintableExt;
 use gif::GifPaintable;
-use gtk4::glib::{timeout_add_local, ControlFlow};
+use gtk4::glib::{timeout_add_local, unix_signal_add_local, ControlFlow};
 use gtk4::prelude::FixedExt;
 use gtk4::prelude::{ApplicationExt, ApplicationExtManual};
 use gtk4::prelude::{GtkWindowExt, WidgetExt};
@@ -21,12 +18,15 @@ use helpers::screen_resolution;
 use helpers::update_input_region;
 use state::State;
 
-use crate::config::Config;
+use crate::config::{Config, InternalConfig};
 use crate::error::BuddyError;
 
 mod gif;
 mod helpers;
 mod state;
+
+const SIGUSR1: i32 = 10;
+const SIGUSR2: i32 = 12;
 
 /// Prepare and render character.
 pub(crate) fn render_character(config: Config, sprites_path: PathBuf) {
@@ -37,9 +37,10 @@ pub(crate) fn render_character(config: Config, sprites_path: PathBuf) {
     application.connect_startup(|_| load_css());
 
     let sprites_path = Rc::new(sprites_path);
+    let config = config.into();
 
     application.connect_activate(move |app| {
-        let result = activate(app, config.copy_primitive(), &sprites_path);
+        let result = activate(app, config, &sprites_path);
 
         if let Err(err) = result {
             eprintln!("An error occurred: {}", err);
@@ -52,19 +53,10 @@ pub(crate) fn render_character(config: Config, sprites_path: PathBuf) {
 /// Active GTK app. May fail and return [BuddyError].
 fn activate(
     application: &gtk4::Application,
-    config: Config,
+    config: InternalConfig,
     sprites_path: &Rc<PathBuf>,
 ) -> Result<(), BuddyError> {
-    // used to handle signal to reload sprites
-    let reload_sprites = Arc::new(AtomicBool::new(false));
-
-    signal_hook::flag::register(signal_hook::consts::SIGUSR1, Arc::clone(&reload_sprites))
-        .map_err(BuddyError::from)?;
-
-    signal_hook::flag::register(signal_hook::consts::SIGUSR2, Arc::clone(&reload_sprites))
-        .map_err(BuddyError::from)?;
-
-    let Config {
+    let InternalConfig {
         movement_speed,
         onclick_event_chance,
         x,
@@ -132,20 +124,43 @@ fn activate(
     // default input region
     update_input_region(&window, width, height, x, 0);
 
+    // signal handling for reloading sprites
+
     let sprites_clone = sprites.clone();
     let sprites_path_clone = Rc::clone(sprites_path);
+    unix_signal_add_local(SIGUSR1, move || {
+        if let Err(err) = sprites_clone.load_animations(&sprites_path_clone, &config) {
+            println!("Warning: Could not update sprites: {}", err)
+        }
 
-    timeout_add_local(
-        Duration::from_millis(1000 / signal_frequency as u64),
-        move || {
-            if automatic_reload || reload_sprites.swap(false, Ordering::Relaxed) {
+        ControlFlow::from(true)
+    });
+
+    let sprites_clone = sprites.clone();
+    let sprites_path_clone = Rc::clone(sprites_path);
+    unix_signal_add_local(SIGUSR2, move || {
+        if let Err(err) = sprites_clone.load_animations(&sprites_path_clone, &config) {
+            println!("Warning: Could not update sprites: {}", err)
+        }
+
+        ControlFlow::from(true)
+    });
+
+    if automatic_reload {
+        let sprites_clone = sprites.clone();
+        let sprites_path_clone = Rc::clone(sprites_path);
+
+        timeout_add_local(
+            Duration::from_millis(1000 / signal_frequency as u64),
+            move || {
                 if let Err(err) = sprites_clone.load_animations(&sprites_path_clone, &config) {
                     println!("Warning: Could not update sprites: {}", err)
                 }
-            }
-            ControlFlow::from(true)
-        },
-    );
+
+                ControlFlow::from(true)
+            },
+        );
+    }
 
     let character_clone = character.clone();
     let sprites_clone = sprites.clone();

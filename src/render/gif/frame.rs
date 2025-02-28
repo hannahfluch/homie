@@ -3,7 +3,7 @@ use std::time::Duration;
 use gtk4::{gdk, glib, prelude::*};
 use image::{DynamicImage, ImageBuffer, Rgba};
 
-use super::Config;
+use super::InternalConfig;
 
 pub(crate) struct Frame {
     pub(crate) texture: gdk::Texture,
@@ -34,7 +34,7 @@ impl From<image::Frame> for Frame {
     }
 }
 
-pub(super) fn transform(f: image::Frame, config: &Config) -> image::Frame {
+pub(super) fn transform(f: image::Frame, config: &InternalConfig) -> image::Frame {
     if !config.flip_vertical && !config.flip_horizontal {
         f
     } else {
