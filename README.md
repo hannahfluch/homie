@@ -33,6 +33,7 @@ buddy -s ./res/rat_sprites/ -w 200 -f 9 -m 35
 ```
 
 Buddy is also able to infer the width/height according to the aspect ratio of the original picture, if only one dimension is provided.
+> Note: This can lead to unwanted behavior when switching sprites on-the-fly.
 
 For more information run this command:
 ```bash
