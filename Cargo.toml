@@ -1,7 +1,14 @@
 [package]
 name = "buddy"
 version = "0.1.0"
+authors = ["Hannah Fluch <hannah@diefluchs.at>"]
+description = "An interactive coding buddy"
+repository = "https://github.com/hannahfluch/buddy"
+keywords = ["buddy", "animation", "gtk4", "interactive"]
+categories = ["command-line-utilities", "gui"]
 edition = "2021"
+readme = "README.md"
+license = "MIT"
 
 [dependencies]
 gtk4 = { version = "0.9.6", features = ["v4_12"] }
