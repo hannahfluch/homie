@@ -15,23 +15,29 @@ sudo apt install libgtk-4-dev
 ## Installation 
 1. Clone the repository to your local machine:
 
-  ```bash
-  git clone https://github.com/hannahfluch/buddy.git
-  cd buddy
-  ```
+```bash
+git clone https://github.com/hannahfluch/buddy.git
+cd buddy
+```
 
 2. Build the project using cargo
-  ```bash
-  cargo build --release
-  ```
+```bash
+cargo build --release
+```
 
 ## How to Run 🏃
-Simply run the following command to see Buddy in action:
 
+Run this command to use buddy with the rat sprites, a width of 200 pixels, 9fps and a movement speed of 35:
+```bash
+buddy -s ./res/rat_sprites/ -w 200 -f 9 -m 35
+```
+
+Buddy is also able to infer the width/height according to the aspect ratio of the original picture, if only one dimension is provided.
+
+For more information run this command:
 ```bash
 buddy -h
 ```
-You'll get all the help you need to configure your Buddy.
 
 ## Reloading Sprites On-the-Fly
 Want to update Buddy's appearance without restarting the program? Buddy can receive signals to reload the sprites:
@@ -42,6 +48,8 @@ kill -SIGUSR1 <pid>
 > Send SIGUSR1 or SIGUSR2
 
 Replace <pid> with the process ID of the Buddy instance. This will trigger Buddy to reload the sprite animations dynamically
+
+Instead, the `automatic-reload` flag in combination with the `signal-frequency` configuration can be used.
 
 ## Configuration ⚙️
 Buddy creates a default configuration file upon its first run. This file is located at:
@@ -56,10 +64,4 @@ The configuration file includes all necessary settings to customize your Buddy's
 2. Adding the sprite path to the **configuration file**
 
 ## Custom Sprites 🎨
-
-Buddy thrives on customization! Just provide a directory containing different subdirectories for each event type (`idle`, `click`, `run`), and watch your Buddy come to life with your own animations.
-
-## Need to Resize Your Sprites? 🔧
-
-We’ve got you covered! Check out the `res` folder for a handy script to resize your images. Just adjust the scaling factor to match your desired size.
-> will be replaced by internal scaling in the future
+Buddy thrives on customization! Just provide a directory containing 3 different gifs(`idle`, `click`, `run`), and watch your Buddy come to life with your own animations.
