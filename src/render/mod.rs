@@ -17,7 +17,7 @@ use helpers::update_input_region;
 use state::State;
 
 use crate::config::{Config, InternalConfig};
-use crate::error::BuddyError;
+use crate::error::HomieError;
 
 mod gif;
 mod helpers;
@@ -28,7 +28,7 @@ const SIGUSR2: i32 = 12;
 
 /// Prepare and render character.
 pub(crate) fn render_character(config: Config, sprites_path: PathBuf) {
-    let app_id = format!("hannahfluch.buddy.instance{}", std::process::id());
+    let app_id = format!("hannahfluch.homie.instance{}", std::process::id());
 
     let application = gtk4::Application::new(Some(app_id.as_str()), Default::default());
 
@@ -48,12 +48,12 @@ pub(crate) fn render_character(config: Config, sprites_path: PathBuf) {
     application.run_with_args::<&str>(&[]);
 }
 
-/// Active GTK app. May fail and return [BuddyError].
+/// Active GTK app. May fail and return [HomieError].
 fn activate(
     application: &gtk4::Application,
     config: InternalConfig,
     sprites_path: &Rc<PathBuf>,
-) -> Result<(), BuddyError> {
+) -> Result<(), HomieError> {
     let InternalConfig {
         movement_speed,
         onclick_event_chance,
@@ -85,7 +85,7 @@ fn activate(
     window.present(); // present prematurely to be able to get screen resolution
 
     let (screen_width, screen_height) =
-        screen_resolution(&window).ok_or(BuddyError::NoScreenResolution)?;
+        screen_resolution(&window).ok_or(HomieError::NoScreenResolution)?;
     let sprites = GifPaintable::default();
     let sprites_path_clone = Rc::clone(sprites_path);
     sprites.load_animations(&sprites_path_clone, &config)?;
@@ -94,7 +94,7 @@ fn activate(
 
     // check for valid starting coordinates
     if !debug && ((x + width) >= screen_width || x < 0 || (y + height) >= screen_height || y < 0) {
-        return Err(BuddyError::CoordinatesOutOfBounds(
+        return Err(HomieError::CoordinatesOutOfBounds(
             x,
             y,
             screen_width,

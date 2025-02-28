@@ -1,10 +1,10 @@
 [package]
-name = "buddy"
+name = "homie"
 version = "0.2.0"
 authors = ["Hannah Fluch <hannah@diefluchs.at>"]
 description = "An interactive coding buddy"
-repository = "https://github.com/hannahfluch/buddy"
-keywords = ["buddy", "animation", "gtk4", "interactive"]
+repository = "https://github.com/hannahfluch/homie"
+keywords = ["homie", "animation", "gtk4", "interactive"]
 categories = ["command-line-utilities", "gui"]
 edition = "2021"
 readme = "README.md"

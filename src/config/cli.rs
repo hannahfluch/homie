@@ -4,7 +4,7 @@ use clap::Parser;
 use clap_num::number_range;
 
 #[derive(Parser, Debug)]
-#[command(name = "Buddy")]
+#[command(name = "Homie")]
 #[command(author = "Hannah F. <github: hannahfluch>")]
 #[command(version = "2.0")]
 #[command(about = r#"Your new best buddy when using your computer :)!"#, long_about = None)]
@@ -79,7 +79,7 @@ pub(crate) struct Cli {
         short,
         long,
         value_name = "X-START",
-        help = "Starting position of buddy on x-axis."
+        help = "Starting position of homie on x-axis."
     )]
     pub(crate) x: Option<i32>,
 
@@ -87,7 +87,7 @@ pub(crate) struct Cli {
         short,
         long,
         value_name = "Y-START",
-        help = "Starting position of buddy on y-axis."
+        help = "Starting position of homie on y-axis."
     )]
     pub(crate) y: Option<i32>,
 
@@ -97,7 +97,7 @@ pub(crate) struct Cli {
         value_name = "RUN-LEFT",
         num_args = 0..=1, 
         default_missing_value = "true",
-        help = "Make buddy move to the left instead of the default: right."
+        help = "Make homie move to the left instead of the default: right."
     )]
     pub(crate) left: Option<bool>,
 
@@ -135,7 +135,7 @@ pub(crate) struct Cli {
         short = 'C',
         long,
         value_name = "PATH",
-        help = "Path to buddy configuration file. If none provided, default config is created at: $HOME/.config/buddy/ "
+        help = "Path to homie configuration file. If none provided, default config is created at: $HOME/.config/homie/ "
     )]
     pub(crate) config_path: Option<String>,
 }

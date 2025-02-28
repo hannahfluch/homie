@@ -3,7 +3,7 @@ use image::ImageError;
 use thiserror::Error;
 
 #[derive(Debug, Error)]
-pub(crate) enum BuddyError {
+pub(crate) enum HomieError {
     #[error("Configuration Failed: {0}")]
     InvalidConfig(#[from] ConfyError),
     #[error("No sprites path specidied")]

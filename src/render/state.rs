@@ -1,6 +1,6 @@
 use std::ops::Not;
 
-/// State that buddy can be in at any time.
+/// State that homie can be in at any time.
 #[derive(Copy, Clone, Debug, PartialEq, Default)]
 pub(crate) enum State {
     #[default]

@@ -9,7 +9,7 @@ use gtk4::CssProvider;
 
 use super::InternalConfig;
 
-/// Update click-able section of buddy on screen.
+/// Update click-able section of homie on screen.
 pub(super) fn update_input_region(
     window: &ApplicationWindow,
     width: i32,
@@ -29,7 +29,7 @@ pub(super) fn screen_resolution(window: &ApplicationWindow) -> Option<(i32, i32)
     Some((monitor.geometry().width(), monitor.geometry().height()))
 }
 
-/// Make buddy's background transparent.
+/// Make homie's background transparent.
 pub(super) fn load_css() {
     let provider = CssProvider::new();
     provider.load_from_string(
