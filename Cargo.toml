@@ -1,6 +1,6 @@
 [package]
 name = "homie"
-version = "0.2.0"
+version = "0.2.1"
 authors = ["Hannah Fluch <hannah@diefluchs.at>"]
 description = "An interactive coding buddy"
 repository = "https://github.com/hannahfluch/homie"
