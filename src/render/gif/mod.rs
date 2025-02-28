@@ -52,11 +52,6 @@ impl GifPaintable {
         imp.state.get()
     }
 
-    pub(crate) fn set_state(&self, new_state: State) {
-        let imp = self.imp();
-        imp.state.set(new_state);
-    }
-
     fn load_gif<P: AsRef<Path>>(path: P, config: &Config) -> Result<Vec<Frame>, BuddyError> {
         let decoder = GifDecoder::new(BufReader::new(File::open(path)?))?;
         let mut frames = decoder
@@ -76,7 +71,7 @@ impl GifPaintable {
         Ok(frames)
     }
 
-    fn switch_animation(&self, new_state: State) {
+    pub(crate) fn switch_animation(&self, new_state: State) {
         let imp = self.imp();
 
         imp.state.set(new_state);

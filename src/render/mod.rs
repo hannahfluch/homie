@@ -193,9 +193,9 @@ fn activate(
             if state != State::Click {
                 if state == State::Idle && fastrand::u8(0..=100) <= onclick_event_chance {
                     // play click event and continue
-                    sprites.set_state(State::Click);
+                    sprites.switch_animation(State::Click);
                 } else {
-                    sprites.set_state(!state);
+                    sprites.switch_animation(!state);
                 }
             }
         },
