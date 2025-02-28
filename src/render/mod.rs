@@ -114,9 +114,10 @@ fn activate(
     character.set_size_request(width, height);
 
     let fixed = Fixed::new();
-    fixed.put(&character, x as f64, y as f64);
+    fixed.put(&character, x as f64, 0.0);
     window.set_child(Some(&fixed));
     window.set_size_request(screen_width, height);
+    window.set_margin_bottom(y);
     window.set_resizable(false);
 
     // default input region
@@ -167,27 +168,22 @@ fn activate(
         Duration::from_millis(1000 / movement_speed as u64),
         move || {
             if sprites_clone.state() == State::Running {
-                let (x, y) = fixed.child_position(&character_clone);
+                let (x, _) = fixed.child_position(&character_clone);
                 // update position
-                let (x, y) = if left {
-                    let x = if x - 10.0 <= -width as f64 {
+                let x = if left {
+                    if x - 10.0 <= -width as f64 {
                         screen_width as f64
                     } else {
                         x - 10.0
-                    };
-
-                    (x, y)
+                    }
+                } else if x + 10.0 >= screen_width as f64 {
+                    -width as f64
                 } else {
-                    let x = if x + 10.0 >= screen_width as f64 {
-                        -width as f64
-                    } else {
-                        x + 10.0
-                    };
-
-                    (x, y)
+                    x + 10.0
                 };
+
                 // move along screen
-                fixed.move_(&character_clone, x, y);
+                fixed.move_(&character_clone, x, 0.0);
                 update_input_region(&window, width, height, x as i32, 0);
             }
             ControlFlow::from(true)
