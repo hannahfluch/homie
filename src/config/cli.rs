@@ -5,8 +5,8 @@ use clap_num::number_range;
 
 #[derive(Parser, Debug)]
 #[command(name = "Buddy")]
-#[command(author = "Hannah F. <github: Hqnnqh>")]
-#[command(version = "1.0")]
+#[command(author = "Hannah F. <github: hannahfluch>")]
+#[command(version = "2.0")]
 #[command(about = r#"Your new best buddy when using your computer :)!"#, long_about = None)]
 pub(crate) struct Cli {
     #[clap(

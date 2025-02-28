@@ -1,6 +1,6 @@
 [package]
 name = "buddy"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["Hannah Fluch <hannah@diefluchs.at>"]
 description = "An interactive coding buddy"
 repository = "https://github.com/hannahfluch/buddy"
