@@ -1,10 +1,11 @@
+use gtk4::gdk::{
+    cairo::{RectangleInt, Region},
+    prelude::{DisplayExt, MonitorExt, SurfaceExt},
+    Display,
+};
 use gtk4::prelude::NativeExt;
 use gtk4::ApplicationWindow;
 use gtk4::CssProvider;
-
-use gdk4::cairo::{RectangleInt, Region};
-use gdk4::prelude::{DisplayExt, MonitorExt, SurfaceExt};
-use gdk4::Display;
 
 use super::InternalConfig;
 

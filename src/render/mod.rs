@@ -2,12 +2,10 @@ use std::path::PathBuf;
 use std::rc::Rc;
 use std::time::Duration;
 
-use gdk4::prelude::PaintableExt;
 use gif::GifPaintable;
+use gtk4::gdk::prelude::PaintableExt;
 use gtk4::glib::{timeout_add_local, unix_signal_add_local, ControlFlow};
-use gtk4::prelude::FixedExt;
-use gtk4::prelude::{ApplicationExt, ApplicationExtManual};
-use gtk4::prelude::{GtkWindowExt, WidgetExt};
+use gtk4::prelude::{ApplicationExt, ApplicationExtManual, FixedExt, GtkWindowExt, WidgetExt};
 use gtk4::Fixed;
 use gtk4::Picture;
 use gtk4::{ApplicationWindow, GestureClick};
