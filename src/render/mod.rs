@@ -8,9 +8,11 @@ use std::time::Duration;
 
 use gif::GifPaintable;
 use gtk4::glib::{timeout_add_local, ControlFlow};
+use gtk4::prelude::FixedExt;
 use gtk4::prelude::{ApplicationExt, ApplicationExtManual};
 use gtk4::prelude::{GtkWindowExt, WidgetExt};
-use gtk4::Image;
+use gtk4::Fixed;
+use gtk4::Picture;
 use gtk4::{ApplicationWindow, GestureClick};
 use gtk4_layer_shell::{Edge, Layer, LayerShell};
 
@@ -115,17 +117,18 @@ fn activate(
     }
 
     // start with idle sprites
-    let character = Image::from_paintable(Some(&sprites));
-
+    let character = Picture::for_paintable(&sprites);
     // default position
-    character.set_margin_start(x);
-    character.set_margin_bottom(y);
+    character.set_hexpand(true);
+    character.set_vexpand(true);
+    character.set_halign(gtk4::Align::Fill);
+    character.set_valign(gtk4::Align::Fill);
     character.set_size_request(width, height);
-    character.set_hexpand(false);
-    character.set_vexpand(false);
 
-    window.set_child(Some(&character));
-    window.set_default_size(config.width.unwrap() as i32, config.height.unwrap() as i32);
+    let fixed = Fixed::new();
+    fixed.put(&character, x as f64, y as f64);
+    window.set_child(Some(&fixed));
+    window.set_size_request(screen_width, height);
     window.set_resizable(false);
 
     // default input region
@@ -156,21 +159,28 @@ fn activate(
         Duration::from_millis(1000 / movement_speed as u64),
         move || {
             if sprites_clone.state() == State::Running {
+                let (x, y) = fixed.child_position(&character_clone);
                 // update position
-                let value = if left {
-                    let new_position = character_clone.margin_start() - 10;
-                    if new_position <= -(width * 2) {
-                        (screen_width + 10) as f64
+                let (x, y) = if left {
+                    let x = if x - 10.0 <= -width as f64 {
+                        screen_width as f64
                     } else {
-                        new_position as f64
-                    }
-                } else {
-                    (character_clone.margin_start() as f64 + 10.0) % (screen_width as f64 + 10.0)
-                };
+                        x - 10.0
+                    };
 
+                    (x, y)
+                } else {
+                    let x = if x + 10.0 >= screen_width as f64 {
+                        -width as f64
+                    } else {
+                        x + 10.0
+                    };
+
+                    (x, y)
+                };
                 // move along screen
-                character_clone.set_margin_start(value as i32);
-                update_input_region(&window, width, height, value as i32, 0);
+                fixed.move_(&character_clone, x, y);
+                update_input_region(&window, width, height, x as i32, 0);
             }
             ControlFlow::from(true)
         },

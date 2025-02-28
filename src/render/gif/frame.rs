@@ -3,6 +3,8 @@ use std::time::Duration;
 use gtk4::{gdk, glib, prelude::*};
 use image::{DynamicImage, ImageBuffer, Rgba};
 
+use super::Config;
+
 pub(crate) struct Frame {
     pub(crate) texture: gdk::Texture,
     pub(crate) frame_duration: Duration,
@@ -32,8 +34,8 @@ impl From<image::Frame> for Frame {
     }
 }
 
-pub(super) fn flip(f: image::Frame, vertical: bool, horizontal: bool) -> image::Frame {
-    if !vertical && !horizontal {
+pub(super) fn transform(f: image::Frame, config: &Config) -> image::Frame {
+    if !config.flip_vertical && !config.flip_horizontal {
         f
     } else {
         let left = f.left();
@@ -42,11 +44,11 @@ pub(super) fn flip(f: image::Frame, vertical: bool, horizontal: bool) -> image::
         let buffer = f.into_buffer();
 
         let mut dynamic_image: DynamicImage = buffer.into();
-        if vertical {
+        if config.flip_vertical {
             dynamic_image = dynamic_image.flipv();
         }
 
-        if horizontal {
+        if config.flip_horizontal {
             dynamic_image = dynamic_image.fliph();
         }
 

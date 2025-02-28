@@ -5,7 +5,7 @@ use std::{
     time::Duration,
 };
 
-use frame::{flip, Frame};
+use frame::{transform, Frame};
 use gtk4::{gdk, glib, prelude::*, subclass::prelude::*};
 use image::{codecs::gif::GifDecoder, AnimationDecoder};
 use paintable::Sprites;
@@ -63,7 +63,7 @@ impl GifPaintable {
             .into_frames()
             .collect_frames()?
             .into_iter()
-            .map(|f| flip(f, config.flip_vertical, config.flip_horizontal))
+            .map(|f| transform(f, config))
             .map(Frame::from)
             .collect::<Vec<Frame>>();
 
