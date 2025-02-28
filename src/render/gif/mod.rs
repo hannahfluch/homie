@@ -2,6 +2,7 @@ use std::{
     fs::File,
     io::BufReader,
     path::{Path, PathBuf},
+    rc::Rc,
     time::Duration,
 };
 
@@ -27,7 +28,11 @@ impl Default for GifPaintable {
 
 impl GifPaintable {
     /// Loads the bytes of a GIF into the paintable.
-    pub(crate) fn load_animations(&self, path: PathBuf, config: &Config) -> Result<(), BuddyError> {
+    pub(crate) fn load_animations(
+        &self,
+        path: &Rc<PathBuf>,
+        config: &Config,
+    ) -> Result<(), BuddyError> {
         let imp = self.imp();
         imp.current_idx.set(0);
 

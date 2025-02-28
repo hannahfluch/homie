@@ -1,3 +1,5 @@
+use std::path::PathBuf;
+
 use clap::Parser;
 use clap_num::number_range;
 
@@ -13,13 +15,13 @@ pub(crate) struct Cli {
         value_name = "PATH",
         help = "Initial path to directory with animation sprites. Directory must contain subdirectories for each event type."
     )]
-    pub(crate) sprites_path: Option<String>,
+    pub(crate) sprites_path: Option<PathBuf>,
 
     #[clap(
         short,
         long,
         value_name = "WIDTH",
-        help = "Width of the character (px)."
+        help = "Width of the character (px). Can be inferred as long as the height is provided."
     )]
     pub(crate) width: Option<u16>,
 
@@ -27,14 +29,14 @@ pub(crate) struct Cli {
         short = 'H',
         long,
         value_name = "HEIGHT",
-        help = "Height of the character (px)."
+        help = "Height of the character (px). Can be inferred as long as the width is provided."
     )]
     pub(crate) height: Option<u16>,
 
     #[clap(
         short,
         long,
-        value_name = "AMOUNT",
+        value_name = "FPS",
         help = "Frames per second to animate character."
     )]
     pub(crate) fps: Option<u32>,
@@ -42,21 +44,23 @@ pub(crate) struct Cli {
     #[clap(
         short,
         long,
-        value_name = "AMOUNT",
+        value_name = "SPEED",
         help = "How often the character's position is updated per second."
     )]
     pub(crate) movement_speed: Option<u32>,
     #[clap(
         short = 'S',
         long,
-        value_name = "AMOUNT",
+        value_name = "SIGNAL-FREQ",
         help = "How often to check for signals per second. Or how often to reload sprites if automatic reload is enabled."
     )]
     pub(crate) signal_frequency: Option<u32>,
 
     #[clap(
         short = 'r',
-        long,
+        long, 
+        num_args = 0..=1, 
+        default_missing_value = "true",
         value_name = "AUTOMATIC-RELOAD",
         help = "Enables the automatic reload of sprites, the frequency should be specific using -S."
     )]
@@ -65,7 +69,7 @@ pub(crate) struct Cli {
     #[clap(
            short,
            long,
-           value_name = "PERCENT",
+           value_name = "ON_CLICK-PERCENT",
            value_parser = less_than_101,
            help = "Chance of on-click event occurring."
        )]
@@ -91,13 +95,17 @@ pub(crate) struct Cli {
         short,
         long,
         value_name = "RUN-LEFT",
+        num_args = 0..=1, 
+        default_missing_value = "true",
         help = "Make buddy move to the left instead of the default: right."
     )]
     pub(crate) left: Option<bool>,
 
     #[clap(
         short = 'F',
-        long,
+        long, 
+        num_args = 0..=1, 
+        default_missing_value = "true",
         value_name = "FLIP-HORIZONTAL",
         help = "Used to flip the horizontal direction of sprites."
     )]
@@ -105,7 +113,9 @@ pub(crate) struct Cli {
 
     #[clap(
         short = 'v',
-        long,
+        long, 
+        num_args = 0..=1, 
+        default_missing_value = "true",
         value_name = "FLIP-VERTICAL",
         help = "Used to flip the vertical direction of sprites."
     )]
@@ -113,7 +123,9 @@ pub(crate) struct Cli {
 
     #[clap(
         short,
-        long,
+        long, 
+        num_args = 0..=1, 
+        default_missing_value = "true",
         value_name = "DEBUG-MODE",
         help = "Used to disable out of bounds checks."
     )]

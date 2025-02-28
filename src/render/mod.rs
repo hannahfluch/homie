@@ -1,6 +1,5 @@
 use std::path::PathBuf;
 use std::rc::Rc;
-use std::str::FromStr;
 use std::sync::atomic::AtomicBool;
 use std::sync::atomic::Ordering;
 use std::sync::Arc;
@@ -30,7 +29,7 @@ mod helpers;
 mod state;
 
 /// Prepare and render character.
-pub(crate) fn render_character(config: Config, sprites_path: String) {
+pub(crate) fn render_character(config: Config, sprites_path: PathBuf) {
     let app_id = format!("hannahfluch.buddy.instance{}", std::process::id());
 
     let application = gtk4::Application::new(Some(app_id.as_str()), Default::default());
@@ -54,7 +53,7 @@ pub(crate) fn render_character(config: Config, sprites_path: String) {
 fn activate(
     application: &gtk4::Application,
     config: Config,
-    sprites_path: &Rc<String>,
+    sprites_path: &Rc<PathBuf>,
 ) -> Result<(), BuddyError> {
     // used to handle signal to reload sprites
     let reload_sprites = Arc::new(AtomicBool::new(false));
@@ -98,7 +97,8 @@ fn activate(
     let (screen_width, screen_height) =
         screen_resolution(&window).ok_or(BuddyError::NoScreenResolution)?;
     let sprites = GifPaintable::default();
-    sprites.load_animations(PathBuf::from_str(sprites_path.as_str()).unwrap(), &config)?;
+    let sprites_path_clone = Rc::clone(sprites_path);
+    sprites.load_animations(&sprites_path_clone, &config)?;
 
     let (width, height) = helpers::infer_size(&config, sprites.intrinsic_aspect_ratio());
 
@@ -139,10 +139,7 @@ fn activate(
         Duration::from_millis(1000 / signal_frequency as u64),
         move || {
             if automatic_reload || reload_sprites.swap(false, Ordering::Relaxed) {
-                if let Err(err) = sprites_clone.load_animations(
-                    PathBuf::from_str(sprites_path_clone.as_str()).unwrap(),
-                    &config,
-                ) {
+                if let Err(err) = sprites_clone.load_animations(&sprites_path_clone, &config) {
                     println!("Warning: Could not update sprites: {}", err)
                 }
             }

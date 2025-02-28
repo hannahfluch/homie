@@ -1,4 +1,5 @@
 use std::env;
+use std::path::PathBuf;
 
 use crate::config::{cli::Cli, Config};
 use crate::error::BuddyError;
@@ -16,10 +17,10 @@ macro_rules! parse_args {
     }};
 }
 
-/// Parse [Cli] and config arguments. Returns [Config] structure and sprites path. [BuddyError] is returned in case of failirue (invalid config, invalid sprites path).
+/// Parse [Cli] and config arguments. Returns [Config] structure and sprites path. [BuddyError] is returned in case of failure (invalid config, invalid sprites path).
 ///
 /// Note: sprites path in config structure remains None.
-pub(crate) fn run() -> Result<(Config, String), BuddyError> {
+pub(crate) fn run() -> Result<(Config, PathBuf), BuddyError> {
     let cli = Cli::parse();
 
     // load specific config file or default path.
@@ -32,7 +33,6 @@ pub(crate) fn run() -> Result<(Config, String), BuddyError> {
     parse_args!(
         config,
         cli,
-        sprites_path,
         width,
         height,
         fps,
@@ -53,21 +53,24 @@ pub(crate) fn run() -> Result<(Config, String), BuddyError> {
     }
 
     // check for existing sprites path
-    let sprites_path = config
+    let sprites_path = cli
         .sprites_path
-        .take()
-        .and_then(|path| expand_env(path.replace("~", "$HOME")))
+        .or(config
+            .sprites_path
+            .take()
+            .and_then(|c| expand_env(c.replace("~", "$HOME"))))
         .ok_or(BuddyError::NoSprites)?;
 
     Ok((config, sprites_path))
 }
 
 /// Expand environment variables in paths of config file.
-fn expand_env(input: String) -> Option<String> {
+fn expand_env(input: String) -> Option<PathBuf> {
     Regex::new(r"\$([A-Za-z_][A-Za-z0-9_]*)").ok().map(|re| {
         re.replace_all(&input, |caps: &regex_lite::Captures| {
             env::var(&caps[1]).unwrap_or_else(|_| format!("${}", &caps[1]))
         })
         .to_string()
+        .into()
     })
 }
