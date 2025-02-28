@@ -48,7 +48,7 @@ pub(crate) fn run() -> Result<(Config, String), BuddyError> {
         debug
     );
 
-    if config.width.is_none() || config.height.is_none() {
+    if config.width.is_none() && config.height.is_none() {
         return Err(BuddyError::NoDimensions);
     }
 

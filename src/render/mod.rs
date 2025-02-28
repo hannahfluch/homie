@@ -6,6 +6,7 @@ use std::sync::atomic::Ordering;
 use std::sync::Arc;
 use std::time::Duration;
 
+use gdk4::prelude::PaintableExt;
 use gif::GifPaintable;
 use gtk4::glib::{timeout_add_local, ControlFlow};
 use gtk4::prelude::FixedExt;
@@ -65,8 +66,6 @@ fn activate(
         .map_err(BuddyError::from)?;
 
     let Config {
-        width,
-        height,
         movement_speed,
         onclick_event_chance,
         x,
@@ -77,9 +76,6 @@ fn activate(
         automatic_reload,
         ..
     } = config;
-
-    let width = width.unwrap() as i32;
-    let height = height.unwrap() as i32;
 
     let window = ApplicationWindow::new(application);
 
@@ -103,6 +99,8 @@ fn activate(
         screen_resolution(&window).ok_or(BuddyError::NoScreenResolution)?;
     let sprites = GifPaintable::default();
     sprites.load_animations(PathBuf::from_str(sprites_path.as_str()).unwrap(), &config)?;
+
+    let (width, height) = helpers::infer_size(&config, sprites.intrinsic_aspect_ratio());
 
     // check for valid starting coordinates
     if !debug && ((x + width) >= screen_width || x < 0 || (y + height) >= screen_height || y < 0) {
