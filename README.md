@@ -1,7 +1,7 @@
 # homie
 
-![AUR Version](https://img.shields.io/aur/version/homie-bin)
-![Crates.io Version](https://img.shields.io/crates/v/homie)
+[![AUR Version](https://img.shields.io/aur/version/homie-bin)](https://aur.archlinux.org/packages/homie-bin)
+[![Crates.io Version](https://img.shields.io/crates/v/homie)](https://crates.io/crates/homie)
 
 ## Description
 **Homie** is here to keep you company while you work on your computer! It’s an animated, interactive little friend that runs across your screen and responds to your clicks.
