@@ -10,13 +10,16 @@
 
 ## Prerequisites 
 - **Rust**: Make sure you have Rust installed. If not, head over to [Rust’s official website](https://www.rust-lang.org/tools/install) for installation instructions.
-- **GTK4**: Homie uses GTK4 for rendering the character. It can be installed on Linux by running:
-
-```bash
-sudo apt install libgtk-4-dev
-```
+- **GTK4-layer-shell**: Homie uses GTK4 for rendering the character as an overlay window. Thus, it is only available on Wayland. 
 
 ## Installation 
+
+Homie is available on the [**AUR**](https://aur.archlinux.org/packages/homie-bin). Alternatively, it can be installed from Crates.io:
+```bash
+cargo install homie
+```
+
+### Build locally
 1. Clone the repository to your local machine:
 
 ```bash
