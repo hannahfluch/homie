@@ -12,8 +12,8 @@ pub(crate) enum HomieError {
     NoDimensions,
     #[error("Graphical Failure: {0}")]
     Glib(#[from] gtk4::glib::Error),
-    #[error("Signal Subscription Failed: {0}")]
-    SignalSubscriptionFailed(#[from] std::io::Error),
+    #[error("I/O Error: {0}")]
+    Io(#[from] std::io::Error),
     #[error("Coordinates out of bounds: x: {0}px, y: {1}px for screen width: {2}px, screen height: {3}px, character width: {4}px, character height: {5}px  - Use debug flag to disable bounds-checking")]
     CoordinatesOutOfBounds(i32, i32, i32, i32, i32, i32),
     #[error("Unable to get screen resolution!")]
