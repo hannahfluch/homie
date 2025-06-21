@@ -57,8 +57,8 @@ pub(crate) struct Cli {
 
     #[clap(
         short = 'r',
-        long, 
-        num_args = 0..=1, 
+        long,
+        num_args = 0..=1,
         default_missing_value = "true",
         value_name = "AUTOMATIC-RELOAD",
         help = "Enables the automatic reload of sprites, the frequency should be specific using -S."
@@ -94,7 +94,7 @@ pub(crate) struct Cli {
         short,
         long,
         value_name = "RUN-LEFT",
-        num_args = 0..=1, 
+        num_args = 0..=1,
         default_missing_value = "true",
         help = "Make homie move to the left instead of the default: right."
     )]
@@ -102,8 +102,8 @@ pub(crate) struct Cli {
 
     #[clap(
         short = 'F',
-        long, 
-        num_args = 0..=1, 
+        long,
+        num_args = 0..=1,
         default_missing_value = "true",
         value_name = "FLIP-HORIZONTAL",
         help = "Used to flip the horizontal direction of sprites."
@@ -112,8 +112,8 @@ pub(crate) struct Cli {
 
     #[clap(
         short = 'v',
-        long, 
-        num_args = 0..=1, 
+        long,
+        num_args = 0..=1,
         default_missing_value = "true",
         value_name = "FLIP-VERTICAL",
         help = "Used to flip the vertical direction of sprites."
@@ -122,8 +122,8 @@ pub(crate) struct Cli {
 
     #[clap(
         short,
-        long, 
-        num_args = 0..=1, 
+        long,
+        num_args = 0..=1,
         default_missing_value = "true",
         value_name = "DEBUG-MODE",
         help = "Used to disable out of bounds checks."
