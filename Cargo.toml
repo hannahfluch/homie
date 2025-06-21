@@ -2,7 +2,7 @@
 name = "homie"
 version = "0.2.1"
 authors = ["Hannah Fluch <hannah@diefluchs.at>"]
-description = "An interactive coding buddy"
+description = "An interactive coding buddy."
 repository = "https://github.com/hannahfluch/homie"
 keywords = ["homie", "animation", "gtk4", "interactive"]
 categories = ["command-line-utilities", "gui"]
