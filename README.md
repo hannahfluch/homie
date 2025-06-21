@@ -47,6 +47,8 @@ For more information run this command:
 homie -h
 ```
 
+For example, a red dino can be rendered using [this](docs/examples/dino.toml) config.
+
 ## Reloading Sprites On-the-Fly
 Want to update Homie's appearance without restarting the program? Homie can receive signals to reload the sprites:
 

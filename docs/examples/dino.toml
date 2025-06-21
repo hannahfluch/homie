@@ -1,0 +1,16 @@
+# Example configruation file that can be used very well for the dino sprites in the `res` folder.
+# According to this configuration, homie should appear on top left of the screen.
+
+movement_speed = 15
+onclick_event_chance = 20
+left = false
+flip_vertical = false
+flip_horizontal = false
+x = 10
+y = 1025
+debug = true
+signal_frequency = 1
+automatic_reload = false
+sprites_path = "../../res/dino_sprites/mort/"
+fps = 7
+width = 60
