@@ -32,6 +32,24 @@ cd homie
 cargo build --release
 ```
 
+### Nix
+
+On Linux, with Nix flakes enabled:
+
+```bash
+nix run .# -- -s ./res/rat_sprites/ -w 200 -f 9 -m 35
+```
+
+The development shell can be launched with:
+```bash
+nix develop
+```
+
+The development shell includes the stable Fenix Rust toolchain, Clippy, rustfmt,
+and the GTK dependencies. Inside it, use `cargo run -- <args>` or `cargo clippy`.
+Run `nix flake check` to run Clippy with warnings treated as errors. Running Homie
+requires a Wayland session with layer-shell support.
+
 ## How to Run 🏃
 
 Run this command to use homie with the rat sprites, a width of 200 pixels, 9fps and a movement speed of 35:
